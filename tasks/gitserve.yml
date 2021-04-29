@@ -1,0 +1,9 @@
+---
+
+- name: deploy gitserve wrapper
+  copy:
+    src: gitserve
+    dest: "{{ password_store_gitserve }}"
+    owner: "{{ password_store_user }}"
+    group: "{{ password_store_group }}"
+    mode: '0700'

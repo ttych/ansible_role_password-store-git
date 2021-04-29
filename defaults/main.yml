@@ -1,2 +1,28 @@
 ---
-# defaults file for ansible_role_password-store-git
+
+want_password_store_git: no
+
+password_store_user: pass
+password_store_group: pass
+password_store_home: "/home/{{ password_store_user }}"
+password_store_home_ssh: "{{ password_store_home }}/.ssh"
+password_store_authorized_keys: "{{ password_store_home_ssh }}/authorized_keys"
+password_store_gitserve: "{{ password_store_home }}/.gitserve"
+password_store_repository: "{{ password_store_home }}/password-store"
+
+password_store_groups:
+  - name: "{{ password_store_group }}"
+    gid: 3302
+password_store_users:
+  - name: "{{ password_store_user }}"
+    comment: "{{ password_store_user }}"
+    group: "{{ password_store_group }}"
+    home: "{{ password_store_home }}"
+    shell: /bin/sh
+    uid: 3302
+    home_mode: '0700'
+    password: '*'
+
+password_store_directories:
+  - { path: "{{ password_store_home }}", owner: "{{ password_store_user }}", group: "{{ password_store_group }}", mode: "0700" }
+  - { path: "{{ password_store_home_ssh }}", owner: "{{ password_store_user }}", group: "{{ password_store_group }}", mode: "0700" }

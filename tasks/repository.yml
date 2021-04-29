@@ -1,0 +1,13 @@
+---
+
+# - name: check if repository exists
+#   stat:
+#     path: "{{ password_store_repository }}"
+#     register: t_password_store_git_repository
+
+- name: init repository
+  command: "git init --bare {{ password_store_repository }}"
+  args:
+    creates: "{{ password_store_repository }}/HEAD"
+  become: yes
+  become_user: "{{ password_store_user }}"

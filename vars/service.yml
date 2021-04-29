@@ -1,0 +1,4 @@
+---
+
+password_store_base_dir: "{{ service_dir }}/password-store"
+password_store_home: "{{ password_store_base_dir }}/{{ password_store_user }}"

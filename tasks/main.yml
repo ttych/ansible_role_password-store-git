@@ -1,2 +1,28 @@
 ---
-# tasks file for ansible_role_password-store-git
+
+- block:
+    - include: context.yml
+
+    - include: accounts.yml
+      vars: {
+        accounts_groups: "{{ password_store_groups }}",
+        accounts_users: "{{ password_store_users }}"
+      }
+
+    - include: workspace.yml
+      vars:
+        workspace_directories: "{{ password_store_directories }}"
+
+    - include: gitserve.yml
+
+    - include: repository.yml
+
+    - include: authorized_keys.yml
+    # add to authorized_keys :
+    # command="./gitserve",no-port-forwarding,no-agent-forwarding,no-X11-forwarding,no-pty ssh-dss AAAAB…
+
+  when: want_password_store_git
+
+- name: "set has_password_store_git to {{ want_password_store_git }}"
+  set_fact:
+    has_password_store_git: "{{ want_password_store_git }}"
