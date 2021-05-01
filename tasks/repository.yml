@@ -11,3 +11,21 @@
     creates: "{{ password_store_repository }}/HEAD"
   become: yes
   become_user: "{{ password_store_user }}"
+
+
+- name: check denyNonFastForwards on repository
+  lineinfile:
+    path: "{{ password_store_repository }}/config"
+    regexp: 'denyNonFastForwards = true'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: t_password_store_git_denyNonFastForwards
+
+- name: set denyNonFastForwards on repository
+  command: "git config --local receive.denyNonFastForwards true"
+  args:
+    chdir: "{{ password_store_repository }}"
+  become: yes
+  become_user: "{{ password_store_user }}"
+  when: not t_password_store_git_denyNonFastForwards.found
